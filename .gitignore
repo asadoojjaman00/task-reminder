@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Django
+*.pot
+*.pyc
+*.coverage
+media/
+staticfiles/
+.env
+
+# Virtual environment
+env/
+venv/
+.venv/
+
+# VSCode
+.vscode/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+
+# PyCharm
+.idea/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Migrations (optional, sometimes push korte হয়)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# JetBrains
+*.iml
+
+# Celery
+celerybeat-schedule
+
+# Test / debug files
+*.bak
+*.swp

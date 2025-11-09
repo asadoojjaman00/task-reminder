@@ -131,4 +131,15 @@ CELERY_TIMEZONE = "UTC"
 
 
 # auth user model 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'\
+
+
+# jwt config 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+# }

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
-
+import uuid
 
 class UserManager(BaseUserManager):
     def create_user(self,full_name, email, password=None, **extra_fields):
@@ -9,7 +9,7 @@ class UserManager(BaseUserManager):
         
         email = self.normalize_email(email)
 
-        username = email.split('@')[0]
+        username = email.split('@')[0] + str(uuid.uuid4())[:4]
         user = self.model(
             full_name=full_name,
             username=username,

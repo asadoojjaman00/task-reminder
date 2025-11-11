@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 # in app module : 
@@ -11,7 +11,7 @@ from .models import Task
 
 
 class TaskListView(APIView):
-    
+    permission_classes = [IsAuthenticated]
     # user own tasks list view
     def get(self , request):
         task = Task.objects.filter(user = request.user)
@@ -30,7 +30,7 @@ class TaskListView(APIView):
 
 
 class TaskDetailView(APIView):
-
+    permission_classes = [IsAuthenticated]
     # helper method for find user own task
 
     def get_object(self , pk , user):

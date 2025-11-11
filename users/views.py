@@ -1,16 +1,16 @@
-from .serializers import UserRegisterSerializer
-# from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate
 
-
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 
+from .serializers import UserRegisterSerializer, CustomObtainTokenSerializer
 
 class RegisterView(APIView):
-    
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         serializer = UserRegisterSerializer(data = request.data)
         if serializer.is_valid():
@@ -26,20 +26,27 @@ class RegisterView(APIView):
 
 
 
+class CustomLoginView(TokenObtainPairView):
+    serializer_class = CustomObtainTokenSerializer
 
+class CustomRefreshView(TokenRefreshView):
+    pass 
 
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
-# class UserLoginView(APIView):
-#     def post(self, request):
-#         serializer = UserLoginSerializer(data=request.data)
-#         if serializer.is_valid():
-#             email = serializer.validated_data['email']
-#             password = serializer.validated_data['password']
-#             user = authenticate(email=email, password=password)
-            
-#             if user:
-#                 return Response({"message": "Login successful!"})
-#             else:
-#                 return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-        
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        try:
+            refresh_token = request.data.get('refresh')
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(
+                {"detail": 'Successfully logout'},
+                status= status.HTTP_205_RESET_CONTENT
+            )
+        except TokenError:
+            return Response(
+                {"detail": 'Invalid or Expired token'},
+                status= status.HTTP_400_BAD_REQUEST
+            )
+
